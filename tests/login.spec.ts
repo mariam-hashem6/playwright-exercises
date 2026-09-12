@@ -12,5 +12,6 @@ test('should log in successfully and display correct title', async ({ page }) =>
 
     await expect(productsPage.logo).toBeVisible();
     await expect(productsPage.logo).toHaveText('Swag Labs');
+    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
 });
