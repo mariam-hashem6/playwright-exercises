@@ -11,10 +11,6 @@ export class ShopPage extends BasePage {
         this.checkoutButton = page.locator('a.nav-link').filter({ hasText: 'Checkout' });
     }
 
-    override async open(): Promise<void> {
-        super.open();
-    }
-
     async addProductToCart(productName: string): Promise<void> {
         const targetCard = this.productCards.filter({ hasText: productName });
         await targetCard.getByRole('button', { name: 'Add' }).click();
