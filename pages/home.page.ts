@@ -17,7 +17,9 @@ export class HomePage extends BasePage {
     private readonly passwordInput: Locator;
     private readonly loveIceCreamCheckbox: Locator;
     private readonly genderSelect: Locator;
-    private readonly employmentStatusRadio: Locator;
+    private readonly studentRadio: Locator;
+    private readonly employedRadio: Locator;
+    private readonly entrepreneurRadio: Locator;
     private readonly submitButton: Locator;
     private readonly shopLink: Locator;
     readonly successAlert: Locator;
@@ -29,7 +31,9 @@ export class HomePage extends BasePage {
         this.passwordInput = page.getByPlaceholder('Password');
         this.loveIceCreamCheckbox = page.getByLabel('Check me out if you Love IceCreams!');
         this.genderSelect = page.getByLabel('Gender');
-        this.employmentStatusRadio = page.getByRole('radio', { name: 'Student' });
+        this.studentRadio = page.getByRole('radio', { name: 'Student' });
+        this.employedRadio = page.getByRole('radio', { name: 'Employed' });
+        this.entrepreneurRadio = page.getByRole('radio', { name: 'Entrepreneur' });
         this.submitButton = page.getByRole('button', { name: 'Submit' });
         this.shopLink = page.getByRole('link', { name: 'Shop' });
         this.successAlert = page.locator('.alert-success');
@@ -45,7 +49,12 @@ export class HomePage extends BasePage {
         await this.passwordInput.fill(data.password);
         await this.loveIceCreamCheckbox.setChecked(data.lovesIceCream);
         await this.genderSelect.selectOption(data.gender);
-        await this.employmentStatusRadio.check();
+        const radioMap = {
+            Student: this.studentRadio,
+            Employed: this.employedRadio,
+            Entrepreneur: this.entrepreneurRadio,
+        };
+        await radioMap[data.employmentStatus].check();
     }
     
     async submitForm(): Promise<void> {
