@@ -39,10 +39,6 @@ export class HomePage extends BasePage {
         this.successAlert = page.locator('.alert-success');
     }
 
-    override async open(): Promise<void> {
-        await super.open();
-    }
-
     async fillForm(data: CustomerData): Promise<void> {
         await this.nameInput.fill(data.name);
         await this.emailInput.fill(data.email);

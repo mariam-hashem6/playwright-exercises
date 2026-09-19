@@ -11,15 +11,9 @@ export class ShopPage extends BasePage {
         this.checkoutButton = page.locator('a.nav-link').filter({ hasText: 'Checkout' });
     }
 
-    async addProductToCart(productName: string): Promise<void> {
-        const targetCard = this.productCards.filter({ hasText: productName });
-        await targetCard.getByRole('button', { name: 'Add' }).click();
-    }
-
-    async addProductsToCart(productNames: string[]): Promise<void> {
-        for (const name of productNames) {
-            await this.addProductToCart(name);
-        }
+    async addFirstAndLastProductsToCart(): Promise<void> {
+        await this.productCards.first().getByRole('button', { name: 'Add' }).click();
+        await this.productCards.last().getByRole('button', { name: 'Add' }).click();
     }
 
 }

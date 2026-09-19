@@ -24,7 +24,7 @@ test(`fills the form with data and adds items to cart`, async ({ page }) => {
 
   await homePage.navigateToShop();
   await expect(page).toHaveURL(/.*shop/);
-  await shopPage.addProductsToCart(["iphone X", "Blackberry"]);
+  await shopPage.addFirstAndLastProductsToCart();
   await expect(shopPage.checkoutButton).toContainText("2");
   
 });
