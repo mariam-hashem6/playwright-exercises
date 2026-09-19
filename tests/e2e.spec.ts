@@ -7,12 +7,12 @@ import { CheckoutPage } from "../pages/checkout.page";
 import { createRegistrationUser } from "../data/users";
 import { checkoutDetails } from "../data/checkout-data";
 
-const user = createRegistrationUser();
-const productName = 'ZARA COAT 3';
-
 test.describe('Automated Product Checkout E2E Flow', () => {
     test('completes product checkout', async ({ page }) => {
 
+        const user = createRegistrationUser();
+        const productName = 'ZARA COAT 3';
+        
         const loginPage = new LoginPage(page);
         const registrationPage = new RegistrationPage(page);
         const dashboardPage = new DashboardPage(page);
@@ -37,7 +37,7 @@ test.describe('Automated Product Checkout E2E Flow', () => {
         await test.step('add the product to the cart', async () => {
             await dashboardPage.addProductToCart(productName);
             await expect(dashboardPage.productAddedToast).toBeVisible();
-            await expect(await dashboardPage.getCartCount()).toBe('1');
+            await expect(dashboardPage.cartBadge).toHaveText('1');
             await dashboardPage.goToCart();
             await page.screenshot({ path: 'screenshots/02-added-to-cart.png' });
         });

@@ -5,7 +5,7 @@ export class DashboardPage extends BasePage {
 
     private readonly productCards: Locator;
     private readonly cartButton: Locator;
-    private readonly cartBadge: Locator;
+    readonly cartBadge: Locator;
     readonly productAddedToast: Locator;
 
     constructor(page: Page) {
@@ -21,11 +21,7 @@ export class DashboardPage extends BasePage {
         await targetCard.getByRole('button', { name: 'Add To Cart' }).click();
     }
 
-    async getCartCount() {
-        return await this.cartBadge.innerText();
-    }
-
-    async goToCart() {
+    async goToCart(): Promise<void> {
         await Promise.all([
             this.page.waitForURL('**/client/#/dashboard/cart'),
             this.cartButton.click(),
