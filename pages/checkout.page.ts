@@ -4,7 +4,6 @@ import type { CheckoutDetails } from "../types/checkout-details";
 
 export class CheckoutPage extends BasePage {
 
-    private readonly fieldLocator: Locator;
     private readonly cardNumberLocator: Locator;
     private readonly cvvLocator: Locator;
     private readonly cardNameLocator: Locator;
@@ -16,13 +15,9 @@ export class CheckoutPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.fieldLocator = page.locator("div.field");
-        this.cardNumberLocator = this.fieldLocator
-            .filter({ has: page.locator("div.title", { hasText: "Credit Card Number" }) }).locator("input");
-        this.cvvLocator = this.fieldLocator
-            .filter({ has: page.locator("div.title", { hasText: "CVV" }) }).locator("input");
-        this.cardNameLocator = this.fieldLocator
-            .filter({ has: page.locator("div.title", { hasText: "Name on Card" }) }).locator("input");
+        this.cardNumberLocator = page.getByRole('textbox').first();
+        this.cvvLocator = page.getByRole('textbox').nth(1);
+        this.cardNameLocator = page.getByRole('textbox').nth(2);
 
         this.selectCountryLocator = page.getByRole('textbox', { name: 'Select Country' });
         this.countryDropdownResultsLocator = page.locator("section.ta-results");
