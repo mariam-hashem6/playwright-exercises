@@ -31,7 +31,6 @@ test.describe('Automated Product Checkout E2E Flow', () => {
             await registrationPage.navigateToLogin();
             await loginPage.login(user.email, user.password);
             await expect(loginPage.loginToast).toBeVisible();
-            await page.screenshot({ path: 'screenshots/1-after-login.png' });
         });
 
         await test.step('add the product to the cart', async () => {
@@ -39,13 +38,11 @@ test.describe('Automated Product Checkout E2E Flow', () => {
             await expect(dashboardPage.productAddedToast).toBeVisible();
             await expect(dashboardPage.cartBadge).toHaveText('1');
             await dashboardPage.goToCart();
-            await page.screenshot({ path: 'screenshots/02-added-to-cart.png' });
         });
 
         await test.step('complete checkout', async () => {
             await cartPage.proceedToCheckout();
             await checkoutPage.fillCardInfo(checkoutDetails);
-            await page.screenshot({ path: 'screenshots/03-before-place-order.png' });
             await checkoutPage.placeOrder();
             await expect(checkoutPage.orderPlacedToast).toBeVisible();
             await expect(checkoutPage.thankYouMessage).toBeVisible();
