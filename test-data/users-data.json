@@ -1,0 +1,10 @@
+{
+  "firstName": "Maryam",
+  "lastName": "Hashem",
+  "email": "maryam.{timestamp}@example.com",
+  "phone": "1234567890",
+  "occupation": "Student",
+  "password": "Password123!",
+  "confirmPassword": "Password123!",
+  "gender": "Female"
+}

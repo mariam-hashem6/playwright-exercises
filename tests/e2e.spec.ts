@@ -4,13 +4,16 @@ import { RegistrationPage } from "../pages/registration.page";
 import { DashboardPage } from "../pages/dashboard.page";
 import { CartPage } from "../pages/cart.page";
 import { CheckoutPage } from "../pages/checkout.page";
-import { createRegistrationUser } from "../data/users";
-import { checkoutDetails } from "../data/checkout-data";
+import { createRegistrationUser, loadJson } from "../utils/test-data-helper";
+import { RegistrationUser } from "../types/registration-user";
+import { CheckoutDetails } from "../types/checkout-details";
 
 test.describe('Automated Product Checkout E2E Flow', () => {
     test('completes product checkout', async ({ page }) => {
 
-        const user = createRegistrationUser();
+        const user = loadJson<RegistrationUser>("users-data.json");
+        const userWithUpdatedEmail = createRegistrationUser(user);
+        const checkoutDetails = loadJson<CheckoutDetails>("checkout-data.json");
         const productName = 'ZARA COAT 3';
         
         const loginPage = new LoginPage(page);
@@ -22,14 +25,14 @@ test.describe('Automated Product Checkout E2E Flow', () => {
         await test.step('register a new user', async () => {
             await loginPage.open();
             await loginPage.navigateToRegistration();
-            await registrationPage.register(user);
+            await registrationPage.register(userWithUpdatedEmail);
             await expect(registrationPage.successToast).toBeVisible();
             await expect(registrationPage.successMessage).toBeVisible();
         });
 
         await test.step('log in with the registered user', async () => {
             await registrationPage.navigateToLogin();
-            await loginPage.login(user.email, user.password);
+            await loginPage.login(userWithUpdatedEmail.email, userWithUpdatedEmail.password);
             await expect(loginPage.loginToast).toBeVisible();
         });
 
