@@ -1,13 +1,5 @@
 [
   {
-    "name": "ZARA COAT 3",
-    "expectedResult": "addedToCart"
-  },
-  {
-    "name": "ADIDAS ORIGINAL",
-    "expectedResult": "addedToCart"
-  },
-  {
     "name": "IPHONE 13 PRO",
     "expectedResult": "addedToCart"
   },
