@@ -1,5 +1,4 @@
-[
-  {
+{
     "firstName": "Maryam",
     "lastName": "Hashem",
     "email": "maryam.{timestamp}@example.com",
@@ -8,5 +7,4 @@
     "password": "Password123!",
     "confirmPassword": "Password123!",
     "gender": "Female"
-  }
-]
+}
