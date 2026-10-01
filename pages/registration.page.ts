@@ -1,6 +1,6 @@
 import { Locator, type Page } from '@playwright/test';
 import { BasePage } from './base.page';
-import type { RegistrationUser } from '../types/registration-user';
+import type { User } from '../types/user';
 
 export class RegistrationPage extends BasePage {
 
@@ -26,7 +26,7 @@ export class RegistrationPage extends BasePage {
         this.emailInput = page.getByPlaceholder('email@example.com');
         this.phoneInput = page.getByPlaceholder('enter your number');
         this.occupationSelect = page.getByRole('combobox');
-        this.maleRadio = page.getByRole('radio', { name: 'Male' });
+        this.maleRadio = page.getByRole('radio', { name: 'Male' }).first();
         this.femaleRadio = page.getByRole('radio', { name: 'Female' });
         this.passwordInput = page.getByRole('textbox', { name: 'Passsword' });
         this.confirmPasswordInput = page.getByRole('textbox', { name: 'Confirm Password' });
@@ -37,7 +37,7 @@ export class RegistrationPage extends BasePage {
         this.loginButton = page.getByRole('button', { name: 'Login' });
     }
 
-    async register(user: RegistrationUser): Promise<void> {
+    async register(user: User): Promise<void> {
         await this.firstNameInput.fill(user.firstName);
         await this.lastNameInput.fill(user.lastName);
         await this.emailInput.fill(user.email);

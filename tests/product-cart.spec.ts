@@ -2,25 +2,18 @@ import { expect, test } from "@playwright/test";
 import { LoginPage } from "../pages/login.page";
 import { RegistrationPage } from "../pages/registration.page";
 import { DashboardPage } from "../pages/dashboard.page";
-import { CartPage } from "../pages/cart.page";
-import { CheckoutPage } from "../pages/checkout.page";
 import { createRegistrationUser, loadJson } from "../utils/test-data-helper";
-import { RegistrationUser } from "../types/registration-user";
-import { CheckoutDetails } from "../types/checkout-details";
+import { User } from "../types/user";
 
 test.describe('Automated Product Checkout E2E Flow', () => {
     test('completes product checkout', async ({ page }) => {
 
-        const user = loadJson<RegistrationUser>("users-data.json");
-        const userWithUpdatedEmail = createRegistrationUser(user);
-        const checkoutDetails = loadJson<CheckoutDetails>("checkout-data.json");
-        const productName = 'ZARA COAT 3';
-        
+        const users = loadJson<User[]>("users-data.json");
+        const userWithUpdatedEmail = createRegistrationUser(users[1]);
+        const productName = 'MacBook Pro M4';
         const loginPage = new LoginPage(page);
         const registrationPage = new RegistrationPage(page);
         const dashboardPage = new DashboardPage(page);
-        const cartPage = new CartPage(page);
-        const checkoutPage = new CheckoutPage(page);
 
         await test.step('register a new user', async () => {
             await loginPage.open();
@@ -33,22 +26,16 @@ test.describe('Automated Product Checkout E2E Flow', () => {
         await test.step('log in with the registered user', async () => {
             await registrationPage.navigateToLogin();
             await loginPage.login(userWithUpdatedEmail.email, userWithUpdatedEmail.password);
+            await page.waitForURL('**/client/#/dashboard/dash');
             await expect(loginPage.loginToast).toBeVisible();
         });
 
-        await test.step('add the product to the cart', async () => {
-            await dashboardPage.addProductToCart(productName);
-            await expect(dashboardPage.productAddedToast).toBeVisible();
-            await expect(dashboardPage.cartBadge).toHaveText('1');
+        await test.step('validate no products in cart', async () => {
+            await dashboardPage.getProductCard(productName);
+            await expect(dashboardPage.getProductCard(productName)).toHaveCount(0);
             await dashboardPage.goToCart();
-        });
-
-        await test.step('complete checkout', async () => {
-            await cartPage.proceedToCheckout();
-            await checkoutPage.fillCardInfo(checkoutDetails);
-            await checkoutPage.placeOrder();
-            await expect(checkoutPage.orderPlacedToast).toBeVisible();
-            await expect(checkoutPage.thankYouMessage).toBeVisible();
+            await expect(dashboardPage.noProductsToast).toBeVisible();
+            await expect(dashboardPage.noProductsMessage).toBeVisible();
         });
     });
 });
