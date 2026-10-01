@@ -1,0 +1,10 @@
+[
+  {
+    "name": "IPHONE 13 PRO",
+    "expectedResult": "addedToCart"
+  },
+  {
+    "name": "MacBook Pro M4",
+    "expectedResult": "notAvailable"
+  }
+]
