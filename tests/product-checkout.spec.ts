@@ -10,13 +10,13 @@ import { CheckoutDetails } from "../types/checkout-details";
 import type { ProductCase } from "../types/product-case";
 
 test.describe('Automated Product Checkout E2E Flow', () => {
-    const users = loadJson<User[]>("users-data.json");
+    const user = loadJson<User>("users-data.json");
     const checkoutDetails = loadJson<CheckoutDetails>("checkout-data.json");
     const productCases = loadJson<ProductCase[]>("product-cases.json");
 
     for (const productCase of productCases) {
         test(`handles ${productCase.expectedResult} for ${productCase.name}`, async ({ page }) => {
-            const userWithUpdatedEmail = createRegistrationUser(users[0]);
+            const userWithUpdatedEmail = createRegistrationUser(user);
             const loginPage = new LoginPage(page);
             const registrationPage = new RegistrationPage(page);
             const dashboardPage = new DashboardPage(page);
@@ -53,6 +53,7 @@ test.describe('Automated Product Checkout E2E Flow', () => {
                     await expect(checkoutPage.orderPlacedToast).toBeVisible();
                     await expect(checkoutPage.thankYouMessage).toBeVisible();
                 });
+
             } else if (productCase.expectedResult === 'notAvailable') {
                 await test.step('validate product is not available', async () => {
                     await expect(dashboardPage.getProductCard(productCase.name)).toHaveCount(0);
