@@ -10,7 +10,7 @@ for (const loginCase of loadJson<LoginCase[]>("login-cases.json")) {
         await loginPage.login(loginCase.email, loginCase.password);
         switch (loginCase.expectedResult) {
             case 'success':
-                await page.waitForURL('**/client/#/dashboard/dash');
+                await expect(page).toHaveURL(/dashboard\/dash/);
                 await expect(loginPage.loginToast).toBeVisible();
                 break;
 

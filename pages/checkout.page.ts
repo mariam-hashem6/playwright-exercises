@@ -38,9 +38,6 @@ export class CheckoutPage extends BasePage {
     }
 
     async placeOrder(): Promise<void> {
-        await Promise.all([
-            this.page.waitForURL('**/client/#/dashboard/thanks**'),
-            this.placeOrderLocator.click(),
-        ]);
+        await this.placeOrderLocator.click();
     }
 }

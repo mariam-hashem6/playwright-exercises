@@ -56,9 +56,6 @@ export class RegistrationPage extends BasePage {
     }
 
     async navigateToLogin(): Promise<void> {
-        await Promise.all([
-            this.page.waitForURL('**/client/#/auth/login'),
-            this.loginButton.click(),
-        ]);
+        await this.loginButton.click();
     }
 }

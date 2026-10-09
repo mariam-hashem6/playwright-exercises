@@ -13,7 +13,7 @@ export class DashboardPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.productCards = page.locator('.card');
-        this.cartButton = page.locator('button[routerlink="/dashboard/cart"]');
+        this.cartButton = page.getByRole('navigation').getByRole('button', { name: /Cart/i });
         this.cartBadge = this.cartButton.locator('label');
         this.productAddedToast = page.getByRole('alert', { name: 'Product Added To Cart' });
         this.noProductsToast = page.getByRole('alert', { name: 'No Product in Your Cart' });
@@ -30,9 +30,6 @@ export class DashboardPage extends BasePage {
     }
 
     async goToCart(): Promise<void> {
-        await Promise.all([
-            this.page.waitForURL('**/client/#/dashboard/cart'),
-            this.cartButton.click(),
-        ]);
+        await this.cartButton.click();
     }
 }

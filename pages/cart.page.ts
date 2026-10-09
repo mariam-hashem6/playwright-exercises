@@ -9,9 +9,6 @@ export class CartPage extends BasePage {
     }
 
     async proceedToCheckout(): Promise<void> {
-        await Promise.all([
-            this.page.waitForURL('**/client/#/dashboard/order**'),
-            this.checkoutButton.click(),
-        ]);
+        await this.checkoutButton.click();
     }
 }

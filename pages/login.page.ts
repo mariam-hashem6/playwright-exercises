@@ -27,10 +27,7 @@ export class LoginPage extends BasePage {
     }
 
     async navigateToRegistration(): Promise<void> {
-        await Promise.all([
-            this.page.waitForURL('**/client/#/auth/register'),
-            this.registerLink.click(),
-        ]);
+        await this.registerLink.click();
     }
 
     async login(username: string, password: string): Promise<void> {

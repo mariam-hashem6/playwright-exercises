@@ -26,6 +26,7 @@ test.describe('Automated Product Checkout E2E Flow', () => {
             await test.step('register a new user', async () => {
                 await loginPage.open();
                 await loginPage.navigateToRegistration();
+                await expect(page).toHaveURL(/\/client\/#\/auth\/register$/);
                 await registrationPage.register(userWithUpdatedEmail);
                 await expect(registrationPage.successToast).toBeVisible();
                 await expect(registrationPage.successMessage).toBeVisible();
@@ -33,8 +34,9 @@ test.describe('Automated Product Checkout E2E Flow', () => {
 
             await test.step('log in with the registered user', async () => {
                 await registrationPage.navigateToLogin();
+                await expect(page).toHaveURL(/\/client\/#\/auth\/login$/);
                 await loginPage.login(userWithUpdatedEmail.email, userWithUpdatedEmail.password);
-                await page.waitForURL('**/client/#/dashboard/dash');
+                await expect(page).toHaveURL(/dashboard\/dash/);
                 await expect(loginPage.loginToast).toBeVisible();
             });
 
@@ -44,12 +46,15 @@ test.describe('Automated Product Checkout E2E Flow', () => {
                     await expect(dashboardPage.productAddedToast).toBeVisible();
                     await expect(dashboardPage.cartBadge).toHaveText('1');
                     await dashboardPage.goToCart();
+                    await expect(page).toHaveURL(/\/client\/#\/dashboard\/cart$/);
                 });
 
                 await test.step('complete checkout', async () => {
                     await cartPage.proceedToCheckout();
+                    await expect(page).toHaveURL(/\/client\/#\/dashboard\/order(?:[/?].*)?$/);
                     await checkoutPage.fillCardInfo(checkoutDetails);
                     await checkoutPage.placeOrder();
+                    await expect(page).toHaveURL(/\/client\/#\/dashboard\/thanks(?:[/?].*)?$/);
                     await expect(checkoutPage.orderPlacedToast).toBeVisible();
                     await expect(checkoutPage.thankYouMessage).toBeVisible();
                 });
@@ -61,6 +66,7 @@ test.describe('Automated Product Checkout E2E Flow', () => {
 
                 await test.step('validate cart is empty', async () => {
                     await dashboardPage.goToCart();
+                    await expect(page).toHaveURL(/\/client\/#\/dashboard\/cart$/);
                     await expect(dashboardPage.noProductsToast).toBeVisible();
                     await expect(dashboardPage.noProductsMessage).toBeVisible();
                 });
