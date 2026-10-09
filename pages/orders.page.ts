@@ -34,10 +34,15 @@ export class OrdersPage extends BasePage {
     });
   }
 
-  async getLastOrderId(): Promise<string> {
-    const orderId = this.getOrderRowsLocator().last().getByRole("rowheader");
-    await expect(orderId).toBeVisible();
-    return (await orderId.innerText()).trim();
+  async getOrderIds(): Promise<string[]> {
+    const orderIds = this.getOrderRowsLocator().getByRole("rowheader");
+    await expect(orderIds.first()).toBeVisible();
+    return (await orderIds.allInnerTexts()).map((orderId) => orderId.trim());
+  }
+
+  async expectOrderListed(orderId: string): Promise<void> {
+    const orderIdCell = this.getOrderRowLocator(orderId).getByRole("rowheader");
+    await expect(orderIdCell).toHaveText(orderId);
   }
 
   async viewOrder(orderId: string): Promise<void> {

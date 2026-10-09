@@ -43,14 +43,6 @@ export class CheckoutPage extends BasePage {
         return this.page.getByText("Place Order");
     }
 
-    getOrderPlacedToastLocator(): Locator {
-        return this.page.getByText("Order Placed Successfully");
-    }
-
-    getThankYouMessageLocator(): Locator {
-        return this.page.getByRole("heading", { name: "Thankyou for the order." });
-    }
-
     async fillCardInfo(details: CheckoutDetails): Promise<void> {
         await this.getCardNumberLocator().fill(details.cardNumber);
         await this.getExpiryMonthLocator().selectOption({ label: details.expiryMonth });
@@ -64,11 +56,5 @@ export class CheckoutPage extends BasePage {
 
     async placeOrder(): Promise<void> {
         await this.getPlaceOrderLocator().click();
-    }
-
-    async expectOrderPlaced(): Promise<void> {
-        await expect(this.page).toHaveURL(/\/client\/#\/dashboard\/thanks(?:[/?].*)?$/);
-        await expect(this.getOrderPlacedToastLocator()).toBeVisible();
-        await expect(this.getThankYouMessageLocator()).toBeVisible();
     }
 }

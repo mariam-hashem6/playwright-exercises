@@ -4,8 +4,9 @@ import { LoginApi } from "../api/login-api";
 import { DashboardPage } from "../pages/client/dashboard.page";
 import { CartPage } from "../pages/client/cart.page";
 import { OrdersPage } from "../pages/orders.page";
-import { OrderPage } from "../pages/order.page";
+import { OrderSummaryPage } from "../pages/order-summary.page";
 import { CheckoutPage } from "../pages/checkout.page";
+import { ThankYouPage } from "../pages/thank-you.page";
 import { createRegistrationUser, loadJson } from "../utils/test-data-helper";
 import { TokenHelper } from "../utils/token-helper";
 import { User } from "../types/user";
@@ -46,8 +47,9 @@ test.describe('Automated Product Checkout E2E Flow', () => {
         const dashboardPage = new DashboardPage(page);
         const cartPage = new CartPage(page);
         const ordersPage = new OrdersPage(page);
-        const orderPage = new OrderPage(page);
+        const orderSummaryPage = new OrderSummaryPage(page);
         const checkoutPage = new CheckoutPage(page);
+        const thankYouPage = new ThankYouPage(page);
 
         await test.step('add the products to the cart', async () => {
             await dashboardPage.addProductsToCart(products);
@@ -57,19 +59,23 @@ test.describe('Automated Product Checkout E2E Flow', () => {
             await cartPage.expectProductsInCart(products);
         });
 
-        await test.step('complete checkout', async () => {
+        const placedOrderIds = await test.step('complete checkout', async () => {
             await cartPage.proceedToCheckout();
             await expect(page).toHaveURL(/\/client\/#\/dashboard\/order(?:[/?].*)?$/);
             await checkoutPage.fillCardInfo(checkoutDetails);
             await checkoutPage.placeOrder();
-            await checkoutPage.expectOrderPlaced();
+            await thankYouPage.expectOrderPlaced();
+            return thankYouPage.getOrderIds();
         });
 
-        await test.step('verify the latest order details', async () => {
+        await test.step('verify the placed order IDs', async () => {
             await ordersPage.openOrders();
-            const lastOrderId = await ordersPage.getLastOrderId();
-            await ordersPage.viewOrder(lastOrderId);
-            await orderPage.expectOrderId(lastOrderId);
+            const orderIdsInHistory = await ordersPage.getOrderIds();
+            expect(orderIdsInHistory).toEqual(expect.arrayContaining(placedOrderIds));
+
+            const placedOrderId = placedOrderIds[0];
+            await ordersPage.viewOrder(placedOrderId);
+            await orderSummaryPage.expectOrderId(placedOrderId);
         });
     });
 });

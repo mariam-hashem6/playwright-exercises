@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./base.page";
 
-export class OrderPage extends BasePage {
+export class OrderSummaryPage extends BasePage {
   constructor(readonly page: Page) {
     super(page);
   }
