@@ -1,7 +1,7 @@
 export type LoginCase = {
     name: string;
-    email: string;
-    password: string;
+    userEmail: string;
+    userPassword: string;
     expectedResult:
         | 'success'
         | 'invalidEmail'

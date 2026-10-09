@@ -1,10 +1,5 @@
 [
   {
-    "name": "IPHONE 13 PRO",
-    "expectedResult": "addedToCart"
-  },
-  {
-    "name": "MacBook Pro M4",
-    "expectedResult": "notAvailable"
+    "products": ["IPHONE 13 PRO", "ADIDAS ORIGINAL", "ZARA COAT 3"]
   }
 ]

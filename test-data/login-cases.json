@@ -1,26 +1,26 @@
 [
   {
     "name": "valid credentials",
-    "email": "maryam.1790813437510@example.com",
-    "password": "Password123!",
+    "userEmail": "maryam.1790813437510@example.com",
+    "userPassword": "Password123!",
     "expectedResult": "success"
   },
   {
     "name": "invalid email",
-    "email": "invalid",
-    "password": "Password123!",
+    "userEmail": "invalid",
+    "userPassword": "Password123!",
     "expectedResult": "invalidEmail"
   },
   {
     "name": "incorrect password",
-    "email": "test.1790810748718@example.com",
-    "password": "WrongPassword!",
+    "userEmail": "test.1790810748718@example.com",
+    "userPassword": "WrongPassword!",
     "expectedResult": "incorrectCredentials"
   },
   {
     "name": "empty credentials",
-    "email": "",
-    "password": "",
+    "userEmail": "",
+    "userPassword": "",
     "expectedResult": "requiredFields"
   }
 ]
