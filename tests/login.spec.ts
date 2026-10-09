@@ -1,11 +1,15 @@
-import test, { expect } from "@playwright/test";
+import test from "@playwright/test";
 import { loadJson } from "../utils/test-data-helper";
 import { LoginCase } from "../types/login-case";
 import { LoginApi } from "../api/login-api";
 
 for (const loginCase of loadJson<LoginCase[]>("login-cases.json")) {
-    test(`validate login with ${loginCase.name}`, async ({ page }) => {
+    test(`validate login with ${loginCase.name}`, async () => {
         const loginApi = await LoginApi.create();
-        await loginApi.login(loginCase);
+        try {
+            await loginApi.login(loginCase);
+        } finally {
+            await loginApi.dispose();
+        }
     });
 }
