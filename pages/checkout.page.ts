@@ -34,7 +34,6 @@ export class CheckoutPage extends BasePage {
         await this.cardNameLocator.fill(details.cardName);
         await this.selectCountryLocator.pressSequentially(details.country, { delay: 100 });
         const countryOption = this.countryDropdownResultsLocator.getByRole("button", { name: details.country });
-        await countryOption.waitFor({ state: 'visible' });
         await countryOption.click();
     }
 
