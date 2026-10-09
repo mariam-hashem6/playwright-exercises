@@ -15,6 +15,14 @@ export class CheckoutPage extends BasePage {
         return this.getFieldsLocator().filter({ hasText: "Credit Card Number" }).getByRole("textbox");
     }
 
+    private getExpiryMonthLocator(): Locator {
+        return this.getFieldsLocator().filter({ hasText: "Expiry Date" }).getByRole("combobox").nth(0);
+    }
+
+    private getExpiryYearLocator(): Locator {
+        return this.getFieldsLocator().filter({ hasText: "Expiry Date" }).getByRole("combobox").nth(1);
+    }
+
     getCvvLocator(): Locator {
         return this.getFieldsLocator().filter({ hasText: "CVV Code" }).getByRole("textbox");
     }
@@ -45,6 +53,8 @@ export class CheckoutPage extends BasePage {
 
     async fillCardInfo(details: CheckoutDetails): Promise<void> {
         await this.getCardNumberLocator().fill(details.cardNumber);
+        await this.getExpiryMonthLocator().selectOption({ label: details.expiryMonth });
+        await this.getExpiryYearLocator().selectOption({ label: details.expiryYear });
         await this.getCvvLocator().fill(details.cvv);
         await this.getCardNameLocator().fill(details.cardName);
         await this.getSelectCountryLocator().pressSequentially(details.country, { delay: 100 });
